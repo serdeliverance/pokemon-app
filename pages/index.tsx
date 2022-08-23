@@ -5,7 +5,7 @@ import { Layout } from '../components/layouts'
 const Home: NextPage = () => {
   return (
     <>
-      <Layout>
+      <Layout title='Listado de Pokemons'>
         <h1>Home Page</h1>
         <Button color='gradient'>Click me!</Button>
       </Layout>
