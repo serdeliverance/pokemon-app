@@ -3,6 +3,7 @@ import type { NextPage } from 'next'
 import { Layout } from '../components/layouts'
 import { GetStaticProps } from 'next'
 import { pokeApi } from '../api'
+import { PokemonListResponse } from '../interfaces'
 
 const Home: NextPage = (props) => {
 
@@ -20,13 +21,13 @@ const Home: NextPage = (props) => {
 }
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
-  const { data } = await pokeApi.get('/pokemon?limit=151')
+  const { data } = await pokeApi.get<PokemonListResponse>('/pokemon?limit=151')
 
 
 
   return {
     props: {
-      pokemons: data.results // TODO add types
+      pokemons: data.results
     }
   }
 }
