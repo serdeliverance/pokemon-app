@@ -1,20 +1,48 @@
+import { NextPage, GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
-import React, { FC } from 'react'
+import React from 'react'
+import { pokeApi } from '../../api'
+import { Pokemon } from '../../interfaces'
 
 interface Props {
-  pokemon: any
+  pokemon: Pokemon
 }
 
-const PokemonPage: FC<Props> = () => {
+const PokemonPage: NextPage<Props> = ({pokemon}) => {
 
   const router = useRouter()
-
-  console.log(router.query);
   
-
   return (
-    <div>PokemonPage</div>
+    <h1># {pokemon.id} - {pokemon.name}</h1>
   )
+}
+
+export const getStaticPaths: GetStaticPaths = async (ctx) => {
+
+  const pokemons151 = [...Array(151)].map((value, index) => `${ index + 1}` )
+
+  return {
+    paths: 
+      pokemons151.map(id => ({
+        params: {
+          id
+        }
+      })),
+    fallback: false // if I look for a not pre generated page, it will show 404
+  }
+}
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  
+  const { id } = params as { id: string }
+
+  const { data } = await pokeApi.get<Pokemon>(`/pokemon/${id}`)
+
+  return {
+    props: {
+        pokemon: data
+    }
+  }
 }
 
 export default PokemonPage
