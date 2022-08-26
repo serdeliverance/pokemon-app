@@ -8,6 +8,7 @@ interface LayoutProps {
 }
 
 export const Layout: FC<LayoutProps> = ({ children, title }) => {
+    
     return (
         <>
             <Head>
@@ -17,7 +18,7 @@ export const Layout: FC<LayoutProps> = ({ children, title }) => {
                 <meta name="keywords" content="XXXX, pokemon, pokedex"/>
             </Head>
 
-            <Navbar />
+            <Navbar/>
 
             <main style={{padding: '0px 20px'}}>
                 { children }
