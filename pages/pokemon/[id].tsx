@@ -5,6 +5,7 @@ import React, { useEffect } from 'react'
 import { pokeApi } from '../../api'
 import { Layout } from '../../components/layouts'
 import { Pokemon } from '../../interfaces'
+import { localFavorites } from '../../utils'
 
 interface Props {
   pokemon: Pokemon
@@ -15,7 +16,7 @@ const PokemonPage: NextPage<Props> = ({pokemon}) => {
   const router = useRouter()
 
   const onToggleFavorites = () => {
-    localStorage.setItem('favorites', pokemon.id.toString())
+    localFavorites.toggleFavorite(pokemon.id)
   }
 
   useEffect(() => {
