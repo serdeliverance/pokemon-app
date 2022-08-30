@@ -13,7 +13,7 @@ interface Props {
   pokemon: Pokemon
 }
 
-const PokemonNamePage: NextPage<Props> = ({pokemon}) => {
+const PokemonByNamePage: NextPage<Props> = ({ pokemon }) => {
   const router = useRouter()
 
   const [isInFavorites, setIsInFavorites] = useState(false)
@@ -35,8 +35,8 @@ const PokemonNamePage: NextPage<Props> = ({pokemon}) => {
       angle: -100,
       origin: {
         x: 1,
-        y: 0
-      }
+        y: 0,
+      },
     })
   }
 
@@ -112,32 +112,30 @@ const PokemonNamePage: NextPage<Props> = ({pokemon}) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async (ctx) => {
-    const { data } = await pokeApi.get<PokemonListResponse>('/pokemon?limit=151')
+  const { data } = await pokeApi.get<PokemonListResponse>('/pokemon?limit=151')
 
-    const pokemonNames = data.results.map(pokemon => pokemon.name)
+  const pokemonNames = data.results.map((pokemon) => pokemon.name)
 
-    return {
-        paths:
-            pokemonNames.map(name => ({
-                params: {
-                    name    
-                }
-            })),
-        fallback: "blocking"
-    }
+  return {
+    paths: pokemonNames.map((name) => ({
+      params: {
+        name,
+      },
+    })),
+    fallback: 'blocking',
+  }
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-    
-    const { name } = params as { name: string }
+  const { name } = params as { name: string }
 
-    const { data } = await pokeApi.get<Pokemon>(`/pokemon/${name}`)
+  const { data } = await pokeApi.get<Pokemon>(`/pokemon/${name}`)
 
-    return {
-      props: {
-        pokemon: data,
-      },
-    }
+  return {
+    props: {
+      pokemon: data,
+    },
+  }
 }
 
-export default PokemonNamePage
+export default PokemonByNamePage

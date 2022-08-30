@@ -35,8 +35,8 @@ const PokemonPage: NextPage<Props> = ({ pokemon }) => {
       angle: -100,
       origin: {
         x: 1,
-        y: 0
-      }
+        y: 0,
+      },
     })
   }
 
