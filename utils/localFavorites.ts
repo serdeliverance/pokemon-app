@@ -1,4 +1,5 @@
 const toggleFavorite = (id: number) => {
+  // TODO favorites function
   let favorites: number[] = JSON.parse(
     localStorage.getItem('favorites') || '[]',
   )
@@ -20,8 +21,13 @@ const existsInFavorites = (id: number): boolean => {
   return favorites.includes(id)
 }
 
+const getFavorites = (): number[] => {
+  return JSON.parse(localStorage.getItem('favorites') || '[]')
+}
+
 // TODO fix this ling warning
 export default {
   toggleFavorite,
   existsInFavorites,
+  getFavorites,
 }
