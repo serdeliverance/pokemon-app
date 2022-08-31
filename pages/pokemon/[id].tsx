@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { pokeApi } from '../../api'
 import { Layout } from '../../components/layouts'
-import { Pokemon } from '../../interfaces'
+import { Pokemon, PokemonResponse } from '../../interfaces'
 import { localFavorites } from '../../utils'
 
 import confetti from 'canvas-confetti'
@@ -47,7 +47,7 @@ const PokemonPage: NextPage<Props> = ({ pokemon }) => {
           <Card isHoverable css={{ padding: '30px' }}>
             <Card.Body>
               <Card.Image
-                src={pokemon.sprites.other?.dream_world.front_default ?? 'sss'}
+                src={pokemon.sprites.frontDefault}
                 alt={pokemon.name}
                 width="100%"
                 height={200}
@@ -79,25 +79,25 @@ const PokemonPage: NextPage<Props> = ({ pokemon }) => {
 
               <Container direction="row" display="flex" gap={0}>
                 <Image
-                  src={pokemon.sprites.front_default}
+                  src={pokemon.sprites.frontDefault}
                   alt={pokemon.name}
                   width={100}
                   height={100}
                 />
                 <Image
-                  src={pokemon.sprites.back_default}
+                  src={pokemon.sprites.backDefault}
                   alt={pokemon.name}
                   width={100}
                   height={100}
                 />
                 <Image
-                  src={pokemon.sprites.front_shiny}
+                  src={pokemon.sprites.frontShiny}
                   alt={pokemon.name}
                   width={100}
                   height={100}
                 />
                 <Image
-                  src={pokemon.sprites.back_shiny}
+                  src={pokemon.sprites.backShiny}
                   alt={pokemon.name}
                   width={100}
                   height={100}
@@ -127,12 +127,22 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { id } = params as { id: string }
 
-  // TODO extract required fields from this response to avoid passing unnecessary data to SSG
-  const { data } = await pokeApi.get<Pokemon>(`/pokemon/${id}`)
+  const { data } = await pokeApi.get<PokemonResponse>(`/pokemon/${id}`)
+
+  const pokemon: Pokemon = {
+    id: data.id,
+    name: data.name,
+    sprites: {
+      frontDefault: data.sprites.front_default,
+      backDefault: data.sprites.back_default,
+      frontShiny: data.sprites.front_shiny,
+      backShiny: data.sprites.back_shiny,
+    },
+  }
 
   return {
     props: {
-      pokemon: data,
+      pokemon,
     },
   }
 }

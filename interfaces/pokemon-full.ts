@@ -1,4 +1,4 @@
-export interface Pokemon {
+export interface PokemonResponse {
   abilities: Ability[]
   base_experience: number
   forms: Species[]
@@ -13,7 +13,7 @@ export interface Pokemon {
   order: number
   past_types: any[]
   species: Species
-  sprites: Sprites
+  sprites: SpritesResponse
   stats: Stat[]
   types: Type[]
   weight: number
@@ -47,13 +47,13 @@ export interface VersionGroupDetail {
 }
 
 export interface GenerationV {
-  'black-white': Sprites
+  'black-white': SpritesResponse
 }
 
 export interface GenerationIv {
-  'diamond-pearl': Sprites
-  'heartgold-soulsilver': Sprites
-  platinum: Sprites
+  'diamond-pearl': SpritesResponse
+  'heartgold-soulsilver': SpritesResponse
+  platinum: SpritesResponse
 }
 
 export interface Versions {
@@ -67,7 +67,7 @@ export interface Versions {
   'generation-viii': GenerationViii
 }
 
-export interface Sprites {
+export interface SpritesResponse {
   back_default: string
   back_female: null
   back_shiny: string
@@ -78,7 +78,7 @@ export interface Sprites {
   front_shiny_female: null
   other?: Other
   versions?: Versions
-  animated?: Sprites
+  animated?: SpritesResponse
 }
 
 export interface GenerationI {
