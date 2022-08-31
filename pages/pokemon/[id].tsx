@@ -127,6 +127,7 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { id } = params as { id: string }
 
+  // TODO refactor: this code is replicated. Refactor inside pokeApi
   const { data } = await pokeApi.get<PokemonResponse>(`/pokemon/${id}`)
 
   const pokemon: Pokemon = {
