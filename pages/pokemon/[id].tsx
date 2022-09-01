@@ -2,7 +2,7 @@ import { Button, Card, Container, Grid, Text, Image } from '@nextui-org/react'
 import { NextPage, GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import { pokeApi } from '../../api'
+import { getPokemon, pokeApi } from '../../api'
 import { Layout } from '../../components/layouts'
 import { Pokemon, PokemonResponse } from '../../interfaces'
 import { localFavorites } from '../../utils'
@@ -47,7 +47,7 @@ const PokemonPage: NextPage<Props> = ({ pokemon }) => {
           <Card isHoverable css={{ padding: '30px' }}>
             <Card.Body>
               <Card.Image
-                src={pokemon.sprites.frontDefault}
+                src={pokemon.image}
                 alt={pokemon.name}
                 width="100%"
                 height={200}
@@ -127,19 +127,7 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { id } = params as { id: string }
 
-  // TODO refactor: this code is replicated. Refactor inside pokeApi
-  const { data } = await pokeApi.get<PokemonResponse>(`/pokemon/${id}`)
-
-  const pokemon: Pokemon = {
-    id: data.id,
-    name: data.name,
-    sprites: {
-      frontDefault: data.sprites.front_default,
-      backDefault: data.sprites.back_default,
-      frontShiny: data.sprites.front_shiny,
-      backShiny: data.sprites.back_shiny,
-    },
-  }
+  const pokemon = await getPokemon(id)
 
   return {
     props: {
